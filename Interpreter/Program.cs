@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Interpreter
 {
@@ -7,8 +8,11 @@ namespace Interpreter
         static void Main(string[] args)
         {
             var interpreter = new Interpreter(new ConsoleOut());
-            interpreter.Evaluate(@"print hello world
-print goodbye world");
+
+            using (var script = new StreamReader(args[0]))
+            {
+                interpreter.Evaluate(script.ReadToEnd());
+            }
         }
     }
 
