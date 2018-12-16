@@ -37,7 +37,7 @@ print ""goodbye world""");
         public void Print_can_take_a_variable_as_an_argument()
         {
             _interpreter.Evaluate(
-                @"message = ""greetings""
+                @"var message = ""greetings""
 print message");
 
             Assert.That(_mockOut.WriteLineCalls[0], Is.EqualTo("greetings"));

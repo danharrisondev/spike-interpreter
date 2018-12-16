@@ -1,28 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Interpreter.Expressions;
+using Interpreter.Tokens;
 
 namespace Interpreter
 {
-    public static class Tokens
-    {
-        public static bool IsStringToken(string tokenString)
-        {
-            return tokenString.StartsWith("\"") && tokenString.EndsWith("\"");
-        }
-    }
-
-    public class StringToken
-    {
-        private readonly string _value;
-
-        public StringToken(string value)
-        {
-            _value = value;
-        }
-
-        public string Value => _value.Replace("\"", string.Empty);
-    }
-
     public class Interpreter
     {
         private readonly IOut _out;
@@ -39,11 +21,16 @@ namespace Interpreter
 
             foreach (var line in lines)
             {
-                if (line.StartsWith("print"))
+                if (line.StartsWith("var"))
+                {
+                    var variable = new CreateVariableExpression(line.Replace("var ", string.Empty));
+                    _variables.Add(variable.Name, new StringToken(variable.Value));
+                }
+                else if (line.StartsWith("print"))
                 {
                     var argument = line.Replace("print ", string.Empty);
 
-                    if (Tokens.IsStringToken(argument))
+                    if (Tokens.Tokens.IsStringToken(argument))
                     {
                         var stringToken = new StringToken(argument);
                         _out.WriteLine(stringToken.Value);
@@ -53,13 +40,6 @@ namespace Interpreter
                         var variableName = line.Replace("print ", string.Empty);
                         _out.WriteLine(_variables[variableName].Value);
                     }
-                }
-                else
-                {
-                    var operands = line.Split(" = ");
-                    var variableName = operands[0];
-                    var value = operands[1];
-                    _variables.Add(variableName, new StringToken(value));
                 }
             }
         }
