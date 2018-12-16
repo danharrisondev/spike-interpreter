@@ -53,5 +53,21 @@ print(message)");
 
             Assert.That(_mockOut.WriteLineCalls[0], Is.EqualTo("seasons greetings"));
         }
+
+        [Test]
+        public void If_condition_is_true_then_print()
+        {
+            _interpreter.Evaluate(
+                @"var message = ""hello""
+if message == ""hello""
+print(""message is hello"")
+endif
+if message == ""goodbye""
+print(""message is goodbye"")
+endif");
+
+            Assert.That(_mockOut.WriteLineCalls.Count, Is.EqualTo(1));
+            Assert.That(_mockOut.WriteLineCalls[0], Is.EqualTo("message is hello"));
+        }
     }
 }
