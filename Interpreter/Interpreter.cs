@@ -23,12 +23,12 @@ namespace Interpreter
             {
                 if (line.StartsWith("var"))
                 {
-                    var variable = new CreateVariableExpression(line.Replace("var ", string.Empty));
+                    var variable = new AssignmentExpression(line.Replace("var ", string.Empty));
                     _variables.Add(variable.Name, new StringToken(variable.Value));
                 }
                 else if (line.StartsWith("set"))
                 {
-                    var assignment = new CreateVariableExpression(line.Replace("set ", string.Empty));
+                    var assignment = new AssignmentExpression(line.Replace("set ", string.Empty));
                     _variables[assignment.Name] = new StringToken(assignment.Value);
                 }
                 else if (line.StartsWith("print"))

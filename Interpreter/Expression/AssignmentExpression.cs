@@ -1,8 +1,8 @@
 namespace Interpreter.Expression
 {
-    public class CreateVariableExpression
+    public class AssignmentExpression
     {
-        public CreateVariableExpression(string expression)
+        public AssignmentExpression(string expression)
         {
             var operands = expression.Split(" = ");
             Name = operands[0];
