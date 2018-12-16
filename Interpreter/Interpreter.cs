@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Interpreter.Expression;
+using System.Linq;
+using Interpreter.Parsing.Statements;
 using Interpreter.Token;
 
 namespace Interpreter
@@ -15,22 +16,19 @@ namespace Interpreter
             _out = mockOutput;
         }
 
-        public void Evaluate(string script)
+        public void Evaluate(IEnumerable<object> statements)
         {
             bool skipLines = false;
             bool insideIf = false;
 
             BeginScope();
 
-            var lines = script.Split(Environment.NewLine);
-
-            foreach (var line in lines)
+            foreach (var statement in statements)
             {
-                if (line.StartsWith("if"))
+                if (statement is Branch)
                 {
-                    var branch = line.Replace("if ", string.Empty);
-                    var condition = branch.Split(" == ");
-                    if (GetCurrentScope()[condition[0]].Value == new StringToken(condition[1]).Value)
+                    Branch branch = (Branch) statement;
+                    if (GetCurrentScope()[branch.Left].Value == new StringToken(branch.Right).Value)
                     {
                         BeginScope();
                         insideIf = true;
@@ -40,7 +38,7 @@ namespace Interpreter
                         skipLines = true;
                     }
                 }
-                else if (line.StartsWith("endif"))
+                else if (statement is EndBranch)
                 {
                     if (insideIf)
                     {
@@ -53,27 +51,35 @@ namespace Interpreter
                 {
                     continue;
                 }
-                else if (line.StartsWith("var"))
+                else if (statement is CreateVariable)
                 {
-                    var variable = new AssignmentExpression(line.Replace("var ", string.Empty));
-                    GetCurrentScope().Add(variable.Name, new StringToken(variable.Value));
+                    var createVariable = (CreateVariable) statement;
+                    GetCurrentScope().Add(createVariable.Name, new StringToken(createVariable.Value));
                 }
-                else if (line.StartsWith("set"))
+                else if (statement is Assignment)
                 {
-                    var assignment = new AssignmentExpression(line.Replace("set ", string.Empty));
+                    var assignment = (Assignment) statement;
                     GetCurrentScope()[assignment.Name] = new StringToken(assignment.Value);
                 }
-                else if (line.StartsWith("print"))
+                else if (statement is MethodCall)
                 {
-                    var call = new MethodCallWithStringParameterOrVariableExpression(line);
+                    var methodCall = (MethodCall) statement;
 
-                    if (call.IsRawString)
+                    if (methodCall.Name == "print")
                     {
-                        _out.WriteLine(new StringToken(call.Argument).Value);
+                        var argument = methodCall.Arguments.Single();
+                        if (Tokens.IsStringToken(argument.Value))
+                        {
+                            _out.WriteLine(new StringToken(argument.Value).Value);
+                        }
+                        else
+                        {
+                            _out.WriteLine(GetCurrentScope()[argument.Value].Value);
+                        }
                     }
                     else
                     {
-                        _out.WriteLine(GetCurrentScope()[call.Argument].Value);
+                        throw new Exception("Missing method: " + methodCall.Name);
                     }
                 }
             }

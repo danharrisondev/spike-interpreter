@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Interpreter.Parsing;
 
 namespace Interpreter
 {
@@ -11,7 +12,9 @@ namespace Interpreter
 
             using (var script = new StreamReader(args[0]))
             {
-                interpreter.Evaluate(script.ReadToEnd());
+                var parser = new Parser();
+                var parseResult = parser.Parse(script.ReadToEnd());
+                interpreter.Evaluate(parseResult);
             }
         }
     }
