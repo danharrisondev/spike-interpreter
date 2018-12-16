@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace Interpreter
 {
@@ -9,11 +8,6 @@ namespace Interpreter
         public static bool IsStringToken(string tokenString)
         {
             return tokenString.StartsWith("\"") && tokenString.EndsWith("\"");
-        }
-
-        public static bool IsIntegerToken(string tokenString)
-        {
-            return Regex.IsMatch(tokenString, "[0-9]+");
         }
     }
 
@@ -28,6 +22,7 @@ namespace Interpreter
 
         public string Value => _value.Replace("\"", string.Empty);
     }
+
     public class Interpreter
     {
         private readonly IOut _out;
