@@ -33,7 +33,7 @@ namespace Interpreter
                 }
                 else if (line.StartsWith("print"))
                 {
-                    var argument = line.Replace("print ", string.Empty);
+                    var argument = line.Substring(line.IndexOf("(") + 1, line.LastIndexOf(")") - (line.IndexOf("(") + 1));
 
                     if (Tokens.IsStringToken(argument))
                     {
@@ -42,8 +42,7 @@ namespace Interpreter
                     }
                     else
                     {
-                        var variableName = line.Replace("print ", string.Empty);
-                        _out.WriteLine(_variables[variableName].Value);
+                        _out.WriteLine(_variables[argument].Value);
                     }
                 }
             }
