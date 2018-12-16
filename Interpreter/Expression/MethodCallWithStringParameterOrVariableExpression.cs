@@ -3,9 +3,9 @@ using Interpreter.Token;
 
 namespace Interpreter.Expression
 {
-    public class PrintCallExpression
+    public class MethodCallWithStringParameterOrVariableExpression
     {
-        public PrintCallExpression(string line)
+        public MethodCallWithStringParameterOrVariableExpression(string line)
         {
             Argument = line.Substring(
                 line.IndexOf("(", StringComparison.Ordinal) + 1,

@@ -33,7 +33,7 @@ namespace Interpreter
                 }
                 else if (line.StartsWith("print"))
                 {
-                    var call = new PrintCallExpression(line);
+                    var call = new MethodCallWithStringParameterOrVariableExpression(line);
 
                     if (call.IsRawString)
                     {
