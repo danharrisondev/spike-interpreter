@@ -42,5 +42,16 @@ print message");
 
             Assert.That(_mockOut.WriteLineCalls[0], Is.EqualTo("greetings"));
         }
+
+        [Test]
+        public void Can_create_then_assign_then_print()
+        {
+            _interpreter.Evaluate(
+                @"var message = ""greetings""
+set message = ""seasons greetings""
+print message");
+
+            Assert.That(_mockOut.WriteLineCalls[0], Is.EqualTo("seasons greetings"));
+        }
     }
 }

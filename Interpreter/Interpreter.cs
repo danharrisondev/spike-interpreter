@@ -26,6 +26,11 @@ namespace Interpreter
                     var variable = new CreateVariableExpression(line.Replace("var ", string.Empty));
                     _variables.Add(variable.Name, new StringToken(variable.Value));
                 }
+                else if (line.StartsWith("set"))
+                {
+                    var assignment = new CreateVariableExpression(line.Replace("set ", string.Empty));
+                    _variables[assignment.Name] = new StringToken(assignment.Value);
+                }
                 else if (line.StartsWith("print"))
                 {
                     var argument = line.Replace("print ", string.Empty);
