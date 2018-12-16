@@ -18,8 +18,8 @@ namespace Tests
         [Test]
         public void Can_parse_create_variable_statement()
         {
-            var script = @"var message = ""seasons greetings""";
-            var statement = ParseStatement<CreateVariable>(script);
+            var statementString = @"var message = ""seasons greetings""";
+            var statement = ParseStatement<CreateVariable>(statementString);
             Assert.That(statement, Is.TypeOf<CreateVariable>());
             Assert.That(statement.Name, Is.EqualTo("message"));
             Assert.That(statement.Value, Is.EqualTo("seasons greetings"));
@@ -28,8 +28,8 @@ namespace Tests
         [Test]
         public void Can_parse_assignment_statement()
         {
-            var script = @"set message = ""updated""";
-            var statement = ParseStatement<Assignment>(script);
+            var statementString = @"set message = ""updated""";
+            var statement = ParseStatement<Assignment>(statementString);
             Assert.That(statement, Is.TypeOf<Assignment>());
             Assert.That(statement.Name, Is.EqualTo("message"));
             Assert.That(statement.Value, Is.EqualTo("updated"));
@@ -38,8 +38,8 @@ namespace Tests
         [Test]
         public void Can_parse_method_call_statement()
         {
-            var script = @"print(""hello world"")";
-            var statement = ParseStatement<MethodCall>(script);
+            var statementString = @"print(""hello world"")";
+            var statement = ParseStatement<MethodCall>(statementString);
             Assert.That(statement, Is.TypeOf<MethodCall>());
             Assert.That(statement.Name, Is.EqualTo("print"));
             Assert.That(statement.Arguments.Count, Is.EqualTo(1));
@@ -49,8 +49,8 @@ namespace Tests
         [Test]
         public void Can_parse_if_statement()
         {
-            var script = @"if message == ""hello""";
-            var statement = ParseStatement<Branch>(script);
+            var statementString = @"if message == ""hello""";
+            var statement = ParseStatement<Branch>(statementString);
             Assert.That(statement, Is.TypeOf<Branch>());
             Assert.That(statement.Left, Is.EqualTo("message"));
             Assert.That(statement.Right, Is.EqualTo(@"""hello"""));
@@ -59,15 +59,15 @@ namespace Tests
         [Test]
         public void Can_parse_endif_statement()
         {
-            var script = "endif";
-            var statement = ParseStatement<EndBranch>(script);
+            var statementString = "endif";
+            var statement = ParseStatement<EndBranch>(statementString);
             Assert.That(statement, Is.TypeOf<EndBranch>());
         }
 
         private T ParseStatement<T>(string script)
         {
             var parseResult = _parser.Parse(script);
-            var statement = (T) parseResult.ToList()[0];
+            var statement = (T) parseResult.Single();
             return statement;
         }
     }
