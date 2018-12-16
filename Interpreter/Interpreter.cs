@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Interpreter.Expressions;
-using Interpreter.Tokens;
+using Interpreter.Expression;
+using Interpreter.Token;
 
 namespace Interpreter
 {
@@ -30,7 +30,7 @@ namespace Interpreter
                 {
                     var argument = line.Replace("print ", string.Empty);
 
-                    if (Tokens.Tokens.IsStringToken(argument))
+                    if (Tokens.IsStringToken(argument))
                     {
                         var stringToken = new StringToken(argument);
                         _out.WriteLine(stringToken.Value);

@@ -1,4 +1,4 @@
-namespace Interpreter.Tokens
+namespace Interpreter.Token
 {
     public class StringToken
     {

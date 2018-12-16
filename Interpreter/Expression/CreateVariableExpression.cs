@@ -1,4 +1,4 @@
-namespace Interpreter.Expressions
+namespace Interpreter.Expression
 {
     public class CreateVariableExpression
     {
