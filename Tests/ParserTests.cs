@@ -56,6 +56,14 @@ namespace Tests
             Assert.That(statement.Right, Is.EqualTo(@"""hello"""));
         }
 
+        [Test]
+        public void Can_parse_endif_statement()
+        {
+            var script = "endif";
+            var statement = ParseStatement<EndBranch>(script);
+            Assert.That(statement, Is.TypeOf<EndBranch>());
+        }
+
         private T ParseStatement<T>(string script)
         {
             var parseResult = _parser.Parse(script);
