@@ -8,7 +8,7 @@ namespace Interpreter
     {
         static void Main(string[] args)
         {
-            var interpreter = new Interpreter(new ConsoleOut());
+            var interpreter = new Interpreter(new StandardOut());
 
             using (var script = new StreamReader(args[0]))
             {
@@ -19,11 +19,24 @@ namespace Interpreter
         }
     }
 
-    class ConsoleOut : IOut
+    class StandardOut : IOut, IDisposable
     {
+        private readonly StreamWriter _writer;
+
+        public StandardOut()
+        {
+            _writer = new StreamWriter(Console.OpenStandardOutput());
+        }
+
         public void WriteLine(string message)
         {
-            Console.WriteLine(message);
+            _writer.WriteLine(message);
+            _writer.Flush();
+        }
+
+        public void Dispose()
+        {
+            _writer.Dispose();
         }
     }
 }
