@@ -33,19 +33,34 @@ namespace Interpreter
                 }
                 else if (line.StartsWith("print"))
                 {
-                    var argument = line.Substring(line.IndexOf("(") + 1, line.LastIndexOf(")") - (line.IndexOf("(") + 1));
+                    var call = new PrintCallExpression(line);
 
-                    if (Tokens.IsStringToken(argument))
+                    if (call.IsRawString)
                     {
-                        var stringToken = new StringToken(argument);
-                        _out.WriteLine(stringToken.Value);
+                        _out.WriteLine(new StringToken(call.Argument).Value);
                     }
                     else
                     {
-                        _out.WriteLine(_variables[argument].Value);
+                        _out.WriteLine(_variables[call.Argument].Value);
                     }
                 }
             }
         }
+    }
+
+    public class PrintCallExpression
+    {
+        public PrintCallExpression(string line)
+        {
+            Argument = line.Substring(
+                line.IndexOf("(", StringComparison.Ordinal) + 1,
+                line.LastIndexOf(")", StringComparison.Ordinal) - (line.IndexOf("(", StringComparison.Ordinal) + 1));
+
+            IsRawString = Tokens.IsStringToken(Argument);
+        }
+
+        public string Argument { get; }
+
+        public bool IsRawString { get; }
     }
 }
