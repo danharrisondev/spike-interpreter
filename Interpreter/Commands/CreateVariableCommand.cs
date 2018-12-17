@@ -27,9 +27,4 @@ namespace Interpreter.Commands
             _scope.Add(_name, new StringToken(_value));
         }
     }
-
-    public abstract class CommandBase
-    {
-        public abstract void Run();
-    }
 }
