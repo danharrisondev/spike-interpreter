@@ -5,14 +5,14 @@ using NUnit.Framework;
 
 namespace Tests
 {
-    public class ParserTests
+    public class CLikeParserTests
     {
-        private Parser _parser;
+        private CLikeParser _parser;
 
         [SetUp]
         public void Set_up_parser()
         {
-            _parser = new Parser();
+            _parser = new CLikeParser();
         }
 
         [Test]

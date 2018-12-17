@@ -4,7 +4,7 @@ using Interpreter.Parsing.CLike;
 
 namespace Interpreter.Parsing
 {
-    public class Parser
+    public class CLikeParser
     {
         public IEnumerable<object> Parse(string script)
         {

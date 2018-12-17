@@ -12,7 +12,7 @@ namespace Interpreter
 
             using (var script = new StreamReader(args[0]))
             {
-                var parser = new Parser();
+                var parser = new CLikeParser();
                 var parseResult = parser.Parse(script.ReadToEnd());
                 interpreter.Evaluate(parseResult);
             }
