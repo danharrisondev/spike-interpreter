@@ -43,11 +43,16 @@ namespace Interpreter
                     var endBranchCommand = new EndBranchCommand();
                     endBranchCommand.Run(this);
                 }
+                
+                /* Todo: This breaks the pattern because we can't roll
+                    up these commands into a list before looping through to run them.
+                 */
                 else if (SkipLines)
                 {
                     var doNothingCommand = new DoNothingCommand();
                     doNothingCommand.Run(this);
                 }
+
                 else if (statement is CreateVariable)
                 {
                     var createVariable = (CreateVariable) statement;
