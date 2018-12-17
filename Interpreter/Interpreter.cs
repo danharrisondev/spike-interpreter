@@ -45,7 +45,8 @@ namespace Interpreter
                 }
                 else if (SkipLines)
                 {
-                    continue;
+                    var doNothingCommand = new DoNothingCommand();
+                    doNothingCommand.Run();
                 }
                 else if (statement is CreateVariable)
                 {
