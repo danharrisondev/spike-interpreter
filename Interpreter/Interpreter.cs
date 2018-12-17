@@ -40,12 +40,8 @@ namespace Interpreter
                 }
                 else if (statement is EndBranch)
                 {
-                    if (InsideIf)
-                    {
-                        EndScope();
-                        SkipLines = false;
-                        InsideIf = false;
-                    }
+                    var endBranchCommand = new EndBranchCommand(this);
+                    endBranchCommand.Run();
                 }
                 else if (SkipLines)
                 {
