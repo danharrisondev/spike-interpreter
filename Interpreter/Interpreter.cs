@@ -1,13 +1,21 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Interpreter.Commands;
 using Interpreter.Parsing.CLike;
 using Interpreter.Token;
 
 namespace Interpreter
 {
-    public class Interpreter
+    public interface IExecutionContext
+    {
+        void BeginScope();
+        void EndScope();
+        Dictionary<string, StringToken> GetCurrentScope();
+        bool SkipLines { get; set; }
+        bool InsideIf { get; set; }
+        IOut GetOutput();
+    }
+
+    public class Interpreter : IExecutionContext
     {
         private readonly IOut _out;
         private readonly Stack<Dictionary<string, StringToken>> _scopeStack = new Stack<Dictionary<string, StringToken>>();
@@ -19,9 +27,6 @@ namespace Interpreter
 
         public void Evaluate(IEnumerable<object> statements)
         {
-            bool skipLines = false;
-            bool insideIf = false;
-
             BeginScope();
 
             foreach (var statement in statements)
@@ -29,26 +34,20 @@ namespace Interpreter
                 if (statement is Branch)
                 {
                     Branch branch = (Branch) statement;
-                    if (GetCurrentScope()[branch.Left].Value == new StringToken(branch.Right).Value)
-                    {
-                        BeginScope();
-                        insideIf = true;
-                    }
-                    else
-                    {
-                        skipLines = true;
-                    }
+
+                    var branchCommand = new BranchCommand(branch.Left, branch.Right, this);
+                    branchCommand.Run();
                 }
                 else if (statement is EndBranch)
                 {
-                    if (insideIf)
+                    if (InsideIf)
                     {
                         EndScope();
-                        skipLines = false;
-                        insideIf = false;
+                        SkipLines = false;
+                        InsideIf = false;
                     }
                 }
-                else if (skipLines)
+                else if (SkipLines)
                 {
                     continue;
                 }
@@ -57,7 +56,7 @@ namespace Interpreter
                     var createVariable = (CreateVariable) statement;
 
                     var createVariableCommand = new CreateVariableCommand(createVariable.Name,
-                        createVariable.Value, GetCurrentScope());
+                        createVariable.Value, this);
 
                     createVariableCommand.Run();
                 }
@@ -66,7 +65,7 @@ namespace Interpreter
                     var assignment = (Assignment) statement;
 
                     var assignmentCommand = new AssignmentCommand(assignment.Name,
-                        assignment.Value, GetCurrentScope());
+                        assignment.Value, this);
 
                     assignmentCommand.Run();
                 }
@@ -75,7 +74,7 @@ namespace Interpreter
                     var methodCall = (MethodCall) statement;
 
                     var methodCallCommand = new MethodCallCommand("print",
-                        methodCall.Arguments, GetCurrentScope(), _out);
+                        methodCall.Arguments, this);
 
                     methodCallCommand.Run();
                 }
@@ -84,7 +83,7 @@ namespace Interpreter
             EndScope();
         }
 
-        private void BeginScope()
+        public void BeginScope()
         {
             if (_scopeStack.Count > 0)
             {
@@ -98,14 +97,22 @@ namespace Interpreter
             }
         }
 
-        private Dictionary<string, StringToken> GetCurrentScope()
+        public void EndScope()
+        {
+            _scopeStack.Pop();
+        }
+
+        public Dictionary<string, StringToken> GetCurrentScope()
         {
             return _scopeStack.Peek();
         }
 
-        private void EndScope()
+        public bool SkipLines { get; set; }
+        public bool InsideIf { get; set; }
+
+        public IOut GetOutput()
         {
-            _scopeStack.Pop();
+            return _out;
         }
     }
 }

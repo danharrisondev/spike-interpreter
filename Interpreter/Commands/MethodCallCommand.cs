@@ -16,13 +16,12 @@ namespace Interpreter.Commands
         public MethodCallCommand(
             string name,
             IEnumerable<Argument> arguments,
-            Dictionary<string, StringToken> scope,
-            IOut output)
+            IExecutionContext executionContext)
         {
             _name = name;
             _arguments = arguments;
-            _scope = scope;
-            _output = output;
+            _scope = executionContext.GetCurrentScope();
+            _output = executionContext.GetOutput();
         }
 
         public override void Run()

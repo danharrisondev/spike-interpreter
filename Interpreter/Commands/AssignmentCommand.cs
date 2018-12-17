@@ -7,16 +7,16 @@ namespace Interpreter.Commands
     {
         private readonly string _name;
         private readonly string _value;
-        private Dictionary<string, StringToken> _scope;
+        private readonly Dictionary<string, StringToken> _scope;
 
         public AssignmentCommand(
             string name,
             string value,
-            Dictionary<string, StringToken> scope)
+            IExecutionContext executionContext)
         {
             _name = name;
             _value = value;
-            _scope = scope;
+            _scope = executionContext.GetCurrentScope();
         }
 
         public override void Run()

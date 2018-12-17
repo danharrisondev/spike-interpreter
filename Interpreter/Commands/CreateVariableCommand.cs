@@ -12,11 +12,11 @@ namespace Interpreter.Commands
         public CreateVariableCommand(
             string name,
             string value,
-            Dictionary<string, StringToken> scope)
+            IExecutionContext executionContext)
         {
             _name = name;
             _value = value;
-            _scope = scope;
+            _scope = executionContext.GetCurrentScope();
         }
 
         public override void Run()
