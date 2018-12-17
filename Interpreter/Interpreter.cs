@@ -64,7 +64,11 @@ namespace Interpreter
                 else if (statement is Assignment)
                 {
                     var assignment = (Assignment) statement;
-                    GetCurrentScope()[assignment.Name] = new StringToken(assignment.Value);
+
+                    var assignmentCommand = new AssignmentCommand(assignment.Name,
+                        assignment.Value, GetCurrentScope());
+
+                    assignmentCommand.Run();
                 }
                 else if (statement is MethodCall)
                 {
