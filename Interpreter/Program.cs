@@ -19,24 +19,11 @@ namespace Interpreter
         }
     }
 
-    class StandardOut : IOut, IDisposable
+    class StandardOut : IOut
     {
-        private readonly StreamWriter _writer;
-
-        public StandardOut()
-        {
-            _writer = new StreamWriter(Console.OpenStandardOutput());
-        }
-
         public void WriteLine(string message)
         {
-            _writer.WriteLine(message);
-            _writer.Flush();
-        }
-
-        public void Dispose()
-        {
-            _writer.Dispose();
+            Console.WriteLine(message);
         }
     }
 }
