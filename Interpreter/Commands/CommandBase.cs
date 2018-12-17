@@ -2,6 +2,6 @@
 {
     public abstract class CommandBase
     {
-        public abstract void Run();
+        public abstract void Run(IExecutionContext context);
     }
 }

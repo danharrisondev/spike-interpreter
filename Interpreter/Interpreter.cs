@@ -35,45 +35,45 @@ namespace Interpreter
                 {
                     Branch branch = (Branch) statement;
 
-                    var branchCommand = new BranchCommand(branch.Left, branch.Right, this);
-                    branchCommand.Run();
+                    var branchCommand = new BranchCommand(branch.Left, branch.Right);
+                    branchCommand.Run(this);
                 }
                 else if (statement is EndBranch)
                 {
-                    var endBranchCommand = new EndBranchCommand(this);
-                    endBranchCommand.Run();
+                    var endBranchCommand = new EndBranchCommand();
+                    endBranchCommand.Run(this);
                 }
                 else if (SkipLines)
                 {
                     var doNothingCommand = new DoNothingCommand();
-                    doNothingCommand.Run();
+                    doNothingCommand.Run(this);
                 }
                 else if (statement is CreateVariable)
                 {
                     var createVariable = (CreateVariable) statement;
 
                     var createVariableCommand = new CreateVariableCommand(createVariable.Name,
-                        createVariable.Value, this);
+                        createVariable.Value);
 
-                    createVariableCommand.Run();
+                    createVariableCommand.Run(this);
                 }
                 else if (statement is Assignment)
                 {
                     var assignment = (Assignment) statement;
 
                     var assignmentCommand = new AssignmentCommand(assignment.Name,
-                        assignment.Value, this);
+                        assignment.Value);
 
-                    assignmentCommand.Run();
+                    assignmentCommand.Run(this);
                 }
                 else if (statement is MethodCall)
                 {
                     var methodCall = (MethodCall) statement;
 
                     var methodCallCommand = new MethodCallCommand("print",
-                        methodCall.Arguments, this);
+                        methodCall.Arguments);
 
-                    methodCallCommand.Run();
+                    methodCallCommand.Run(this);
                 }
             }
 

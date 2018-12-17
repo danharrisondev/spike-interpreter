@@ -2,20 +2,13 @@
 {
     public class EndBranchCommand : CommandBase
     {
-        private readonly IExecutionContext _executionContext;
-
-        public EndBranchCommand(IExecutionContext executionContext)
+        public override void Run(IExecutionContext context)
         {
-            _executionContext = executionContext;
-        }
-
-        public override void Run()
-        {
-            if (_executionContext.InsideIf)
+            if (context.InsideIf)
             {
-                _executionContext.EndScope();
-                _executionContext.SkipLines = false;
-                _executionContext.InsideIf = false;
+                context.EndScope();
+                context.SkipLines = false;
+                context.InsideIf = false;
             }
         }
     }

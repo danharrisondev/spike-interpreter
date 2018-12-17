@@ -2,7 +2,7 @@
 {
     public class DoNothingCommand : CommandBase
     {
-        public override void Run()
+        public override void Run(IExecutionContext context)
         {
             
         }

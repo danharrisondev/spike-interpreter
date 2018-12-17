@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Interpreter.Token;
+﻿using Interpreter.Token;
 
 namespace Interpreter.Commands
 {
@@ -7,21 +6,19 @@ namespace Interpreter.Commands
     {
         private readonly string _name;
         private readonly string _value;
-        private readonly Dictionary<string, StringToken> _scope;
 
         public AssignmentCommand(
             string name,
-            string value,
-            IExecutionContext executionContext)
+            string value)
         {
             _name = name;
             _value = value;
-            _scope = executionContext.GetCurrentScope();
         }
 
-        public override void Run()
+        public override void Run(IExecutionContext context)
         {
-            _scope[_name] = new StringToken(_value);
+            var scope = context.GetCurrentScope();
+            scope[_name] = new StringToken(_value);
         }
     }
 }
