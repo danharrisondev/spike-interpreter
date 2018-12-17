@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Interpreter.Commands;
 using Interpreter.Parsing.CLike;
 using Interpreter.Token;
 
@@ -54,7 +55,11 @@ namespace Interpreter
                 else if (statement is CreateVariable)
                 {
                     var createVariable = (CreateVariable) statement;
-                    GetCurrentScope().Add(createVariable.Name, new StringToken(createVariable.Value));
+
+                    var createVariableCommand = new CreateVariableCommand(createVariable.Name,
+                        createVariable.Value, GetCurrentScope());
+
+                    createVariableCommand.Run();
                 }
                 else if (statement is Assignment)
                 {
