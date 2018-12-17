@@ -74,22 +74,10 @@ namespace Interpreter
                 {
                     var methodCall = (MethodCall) statement;
 
-                    if (methodCall.Name == "print")
-                    {
-                        var argument = methodCall.Arguments.Single();
-                        if (Tokens.IsStringToken(argument.Value))
-                        {
-                            _out.WriteLine(new StringToken(argument.Value).Value);
-                        }
-                        else
-                        {
-                            _out.WriteLine(GetCurrentScope()[argument.Value].Value);
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception("Missing method: " + methodCall.Name);
-                    }
+                    var methodCallCommand = new MethodCallCommand("print",
+                        methodCall.Arguments, GetCurrentScope(), _out);
+
+                    methodCallCommand.Run();
                 }
             }
 
