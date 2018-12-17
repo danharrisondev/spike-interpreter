@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Interpreter.Parsing.Statements;
+using Interpreter.Parsing.CLike;
 
 namespace Interpreter.Parsing
 {

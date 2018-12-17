@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Interpreter.Parsing.Statements;
+using Interpreter.Parsing.CLike;
 using Interpreter.Token;
 
 namespace Interpreter

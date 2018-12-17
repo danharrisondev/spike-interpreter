@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Interpreter.Parsing.Statements
+namespace Interpreter.Parsing.CLike
 {
     public class Assignment
     {

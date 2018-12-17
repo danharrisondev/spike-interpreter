@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Interpreter.Parsing.Statements
+namespace Interpreter.Parsing.CLike
 {
     public static class ArgumentCollection
     {

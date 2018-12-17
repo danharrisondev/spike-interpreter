@@ -1,4 +1,4 @@
-﻿namespace Interpreter.Parsing.Statements
+﻿namespace Interpreter.Parsing.CLike
 {
     public class Argument
     {

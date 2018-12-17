@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Interpreter.Parsing;
-using Interpreter.Parsing.Statements;
+using Interpreter.Parsing.CLike;
 using NUnit.Framework;
 
 namespace Tests

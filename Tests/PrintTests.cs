@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Interpreter.Parsing.Statements;
+using Interpreter.Parsing.CLike;
 using NUnit.Framework;
 using Tests.Infrastructure;
 
